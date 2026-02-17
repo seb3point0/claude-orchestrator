@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Setup script for Claude Orchestrator
-# Downloads and installs from GitHub
+# Local setup script for Claude Orchestrator
+# Run this from inside your project directory with the orchestrator repo nearby
+# Example: bash ../claude-orchestrator/setup.sh
 
 set -e
 
@@ -8,86 +9,37 @@ echo "🚀 Claude Orchestrator Setup"
 echo "============================"
 echo ""
 
-# Configuration
-REPO_URL="https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main"
-BRANCH="main"
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Check prerequisites
-echo "✓ Checking prerequisites..."
-
-if ! command -v claude &> /dev/null; then
-    echo "✗ Claude Code CLI not found. Install it first:"
-    echo "  https://github.com/anthropics/claude-code"
-    exit 1
-fi
-
-if ! command -v tmux &> /dev/null; then
-    echo "✗ tmux not found. Install it:"
-    echo "  macOS: brew install tmux"
-    echo "  Linux: apt-get install tmux"
-    exit 1
-fi
-
-if ! command -v gh &> /dev/null; then
-    echo "✗ GitHub CLI not found. Install it:"
-    echo "  macOS: brew install gh"
-    echo "  Linux: https://github.com/cli/cli/releases"
-    exit 1
-fi
-
-if ! gh auth status &> /dev/null; then
-    echo "✗ GitHub CLI not authenticated. Run: gh auth login"
-    exit 1
-fi
-
+# Check we're in a git repo
 if ! git rev-parse --git-dir &> /dev/null; then
     echo "✗ Not in a git repository"
     exit 1
 fi
 
-echo "✓ All prerequisites found"
+echo "✓ In git repository"
 echo ""
 
-# Create directories
-echo "📁 Creating directories..."
-mkdir -p .claude/commands .claude/scripts
-echo "✓ Directories created"
+# Copy .claude folder
+echo "📁 Copying .claude folder..."
+cp -r "$SCRIPT_DIR/.claude" .
+echo "✓ .claude folder copied"
 echo ""
 
-# Download and setup files
-echo "📄 Setting up files..."
-
-# Download dispatch command
-curl -s "$REPO_URL/.claude/commands/dispatch.md" -o .claude/commands/dispatch.md
-echo "  ✓ .claude/commands/dispatch.md created"
-
-# Download worker spawner script
-curl -s "$REPO_URL/.claude/scripts/spawn-issue-worker.sh" -o .claude/scripts/spawn-issue-worker.sh
+# Make spawner executable
 chmod +x .claude/scripts/spawn-issue-worker.sh
-echo "  ✓ .claude/scripts/spawn-issue-worker.sh created (executable)"
-
-echo ""
-
-# Verify setup
-echo "✓ Verifying setup..."
-if [ ! -f ".claude/commands/dispatch.md" ]; then
-    echo "✗ .claude/commands/dispatch.md not found"
-    exit 1
-fi
-
-if [ ! -x ".claude/scripts/spawn-issue-worker.sh" ]; then
-    echo "✗ .claude/scripts/spawn-issue-worker.sh not executable"
-    exit 1
-fi
-
-echo "✓ All files verified"
+echo "✓ Permissions set"
 echo ""
 
 echo "✅ Setup complete!"
 echo ""
+echo "Your project now has:"
+echo "  .claude/commands/dispatch.md"
+echo "  .claude/scripts/spawn-issue-worker.sh"
+echo "  .claude/skills/orchestrator.md"
+echo ""
 echo "Next steps:"
-echo "1. Start a tmux session: tmux new-session -s orchestrator"
+echo "1. Start a tmux session: tmux new-session -s work"
 echo "2. Launch Claude: claude"
 echo "3. Dispatch an issue: /dispatch 1"
-echo ""
-echo "See README: https://github.com/seb3point0/claude-orchestrator"

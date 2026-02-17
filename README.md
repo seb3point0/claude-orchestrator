@@ -4,7 +4,7 @@
 
 ## The Problem
 
-You have 50 GitHub issues to fix. Manually assigning them to team members takes time. Even if you had the capacity, coordinating code review and merging multiple branches is painful. What if you could dispatch all 50 at once and they'd all be worked on simultaneously?
+You have 50 GitHub issues to fix. Manually assigning them takes time. Even if you had capacity, coordinating code review and merging is painful. What if you could dispatch all 50 at once?
 
 ## The Solution
 
@@ -89,52 +89,45 @@ Result: Complete feature, ready to merge
 ### 🤖 Autonomous & Isolated
 Workers operate independently in their own tmux windows. No need for user intervention. When complete, they signal automatically. The monitoring system detects completion and cleans up.
 
-## Installation (1 minute)
+## Installation (3 steps)
 
-### Option A: Installation Script (Recommended)
+### Step 1: Clone the Orchestrator Repository
+
+```bash
+git clone https://github.com/seb3point0/claude-orchestrator.git
+```
+
+### Step 2: Copy to Your Project
+
+Go to your project and copy the `.claude` folder:
 
 ```bash
 cd your-project
-bash <(curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/install.sh)
+cp -r ../claude-orchestrator/.claude .
 ```
 
-### Option B: Copy Skill File
+That's it! The entire orchestrator is now in your project.
+
+### Step 3: Start Using It
 
 ```bash
-# Copy the skill
-curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/skills/orchestrator.md \
-  -o your-project/.claude/skills/orchestrator.md
+# Start tmux session
+tmux new-session -s work
 
-# In Claude:
-/orchestrator init
-```
+# Launch Claude (inside tmux)
+claude
 
-### Option C: Manual Setup
-
-```bash
-mkdir -p your-project/.claude/commands your-project/scripts
-
-# Copy files
-curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/commands/dispatch.md \
-  -o your-project/.claude/commands/dispatch.md
-
-curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/scripts/spawn-issue-worker.sh \
-  -o your-project/.claude/scripts/spawn-issue-worker.sh
-
-chmod +x your-project/.claude/scripts/spawn-issue-worker.sh
+# Dispatch your first issue
+/dispatch 1    # Replace 1 with a real GitHub issue number
 ```
 
 ## Quick Start (2 minutes)
 
 ```bash
-# 1. Start tmux session
-tmux new-session -s work
+# In your tmux session with Claude running
 
-# 2. Launch Claude (inside the tmux session)
-claude
-
-# 3. In Claude, dispatch an issue
-/dispatch 1    # Replace 1 with a real GitHub issue number
+# Dispatch an issue
+/dispatch 1
 
 # Watch what happens:
 # ├─ New tmux window "issue-1" appears
@@ -144,15 +137,15 @@ claude
 # ├─ Worker prints: "ISSUE 1 COMPLETE"
 # └─ Window closes automatically
 
-# 4. Review the work
+# Review the work
 git log issue/1
 git diff main issue/1
 
-# 5. When ready to merge
+# When ready to merge
 git checkout main
 git merge --no-ff issue/1 -m "Merge issue #1"
 
-# 6. Dispatch more (they run in parallel)
+# Dispatch more (they run in parallel)
 /dispatch 2
 /dispatch 3
 /dispatch 4
@@ -246,10 +239,10 @@ git branch -d issue/1
 Your Repository
 ├── Main branch
 ├── .claude/
-│   ├── commands/dispatch.md    ← Dispatch command
-│   └── skills/orchestrator.md  ← Setup skill
-├── scripts/
-│   └── spawn-issue-worker.sh   ← Worker spawner
+│   ├── commands/dispatch.md     ← Dispatch command
+│   ├── scripts/
+│   │   └── spawn-issue-worker.sh ← Worker spawner
+│   └── skills/orchestrator.md   ← Setup skill
 └── .worktrees/
     ├── issue-1/  (branch: issue/1)  ← Worker 1
     ├── issue-2/  (branch: issue/2)  ← Worker 2
@@ -268,7 +261,7 @@ claude  # Inside the session
 ```
 
 **"/dispatch command not found"**
-- Ensure `.claude/commands/dispatch.md` exists
+- Ensure `.claude/commands/dispatch.md` exists in your project
 - Restart Claude
 
 **"gh not authenticated"**
@@ -288,7 +281,7 @@ git worktree add test-branch .worktrees/test origin/main
 ## FAQ
 
 **Q: Can I use this with an existing Claude setup?**
-A: Yes! It integrates seamlessly.
+A: Yes! Just copy the `.claude` folder into your project.
 
 **Q: What if I have 50 issues?**
 A: Dispatch all 50. They run concurrently, each with its own worker and worktree.
@@ -322,4 +315,4 @@ MIT
 
 ---
 
-**Ready to try it?** Start with [Installation](#installation-1-minute) above.
+**Ready to try it?** Start with [Installation](#installation-3-steps) above.

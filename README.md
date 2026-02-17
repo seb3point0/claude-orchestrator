@@ -89,54 +89,38 @@ Result: Complete feature, ready to merge
 ### 🤖 Autonomous & Isolated
 Workers operate independently in their own tmux windows. No need for user intervention. When complete, they signal automatically. The monitoring system detects completion and cleans up.
 
-## Installation (3 steps)
+## Installation (2 steps - Easy!)
 
-### Step 1: Go to Your Project
+### Step 1: Clone and Run Setup
 
 ```bash
 cd your-project
-```
-
-### Step 2: Clone the Orchestrator
-
-```bash
 git clone https://github.com/seb3point0/claude-orchestrator.git
+bash claude-orchestrator/setup.sh
 ```
 
-### Step 3: Copy Files Into Your `.claude` Folder
+That's it! The setup script will:
+- ✓ Create `.claude` folder if needed
+- ✓ Copy all orchestrator files (won't overwrite existing)
+- ✓ Set correct permissions
+- ✓ Show you what was installed
 
-Copy the orchestrator files into your existing `.claude` folder (this preserves any existing files):
-
-```bash
-# Copy dispatch command
-cp claude-orchestrator/.claude/commands/dispatch.md .claude/commands/
-
-# Copy orchestrator skill
-cp claude-orchestrator/.claude/skills/orchestrator.md .claude/skills/
-
-# Copy orchestrator scripts (namespaced to avoid conflicts)
-cp -r claude-orchestrator/.claude/claude-orchestrator-scripts .claude/
-
-# Make scripts executable
-chmod +x .claude/claude-orchestrator-scripts/spawn-issue-worker.sh
-
-# Clean up orchestrator repo (optional)
-rm -rf claude-orchestrator
-```
-
-That's it! The orchestrator is now merged into your project's `.claude` folder without overwriting anything.
-
-### Step 4: Start Using It
+### Step 2: Start Using It
 
 ```bash
 # Start tmux session
-tmux new-session -s work
+tmux new-session -s orchestrator
 
 # Launch Claude (inside tmux)
 claude
 
 # Dispatch your first issue
 /dispatch 1    # Replace 1 with a real GitHub issue number
+```
+
+**Optional:** Clean up the orchestrator repo after setup:
+```bash
+rm -rf claude-orchestrator
 ```
 
 ## Quick Start (2 minutes)

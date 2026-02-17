@@ -91,24 +91,42 @@ Workers operate independently in their own tmux windows. No need for user interv
 
 ## Installation (3 steps)
 
-### Step 1: Clone the Orchestrator Repository
+### Step 1: Go to Your Project
+
+```bash
+cd your-project
+```
+
+### Step 2: Clone the Orchestrator
 
 ```bash
 git clone https://github.com/seb3point0/claude-orchestrator.git
 ```
 
-### Step 2: Copy to Your Project
+### Step 3: Copy Files Into Your `.claude` Folder
 
-Go to your project and copy the `.claude` folder:
+Copy the orchestrator files into your existing `.claude` folder (this preserves any existing files):
 
 ```bash
-cd your-project
-cp -r ../claude-orchestrator/.claude .
+# Copy dispatch command
+cp claude-orchestrator/.claude/commands/dispatch.md .claude/commands/
+
+# Copy orchestrator skill
+cp claude-orchestrator/.claude/skills/orchestrator.md .claude/skills/
+
+# Copy orchestrator scripts (namespaced to avoid conflicts)
+cp -r claude-orchestrator/.claude/claude-orchestrator-scripts .claude/
+
+# Make scripts executable
+chmod +x .claude/claude-orchestrator-scripts/spawn-issue-worker.sh
+
+# Clean up orchestrator repo (optional)
+rm -rf claude-orchestrator
 ```
 
-That's it! The entire orchestrator is now in your project.
+That's it! The orchestrator is now merged into your project's `.claude` folder without overwriting anything.
 
-### Step 3: Start Using It
+### Step 4: Start Using It
 
 ```bash
 # Start tmux session
@@ -239,10 +257,10 @@ git branch -d issue/1
 Your Repository
 ├── Main branch
 ├── .claude/
-│   ├── commands/dispatch.md     ← Dispatch command
-│   ├── scripts/
-│   │   └── spawn-issue-worker.sh ← Worker spawner
-│   └── skills/orchestrator.md   ← Setup skill
+│   ├── commands/dispatch.md              ← Dispatch command
+│   ├── claude-orchestrator-scripts/
+│   │   └── spawn-issue-worker.sh         ← Worker spawner
+│   └── skills/orchestrator.md            ← Setup skill
 └── .worktrees/
     ├── issue-1/  (branch: issue/1)  ← Worker 1
     ├── issue-2/  (branch: issue/2)  ← Worker 2

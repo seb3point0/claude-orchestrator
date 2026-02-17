@@ -28,7 +28,7 @@ echo "✓ .claude folder copied"
 echo ""
 
 # Make spawner executable
-chmod +x .claude/scripts/spawn-issue-worker.sh
+chmod +x .claude/claude-orchestrator-scripts/spawn-issue-worker.sh
 echo "✓ Permissions set"
 echo ""
 
@@ -36,7 +36,7 @@ echo "✅ Setup complete!"
 echo ""
 echo "Your project now has:"
 echo "  .claude/commands/dispatch.md"
-echo "  .claude/scripts/spawn-issue-worker.sh"
+echo "  .claude/claude-orchestrator-scripts/spawn-issue-worker.sh"
 echo "  .claude/skills/orchestrator.md"
 echo ""
 echo "Next steps:"

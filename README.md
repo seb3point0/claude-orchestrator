@@ -118,10 +118,10 @@ mkdir -p your-project/.claude/commands your-project/scripts
 curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/commands/dispatch.md \
   -o your-project/.claude/commands/dispatch.md
 
-curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/scripts/spawn-issue-worker.sh \
-  -o your-project/scripts/spawn-issue-worker.sh
+curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/scripts/spawn-issue-worker.sh \
+  -o your-project/.claude/scripts/spawn-issue-worker.sh
 
-chmod +x your-project/scripts/spawn-issue-worker.sh
+chmod +x your-project/.claude/scripts/spawn-issue-worker.sh
 ```
 
 ## Quick Start (2 minutes)

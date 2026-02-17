@@ -50,7 +50,7 @@ echo ""
 
 # Create directories
 echo "📁 Creating directories..."
-mkdir -p .claude/commands scripts
+mkdir -p .claude/commands .claude/scripts
 echo "✓ Directories created"
 echo ""
 
@@ -62,9 +62,9 @@ curl -s "$REPO_URL/.claude/commands/dispatch.md" -o .claude/commands/dispatch.md
 echo "  ✓ .claude/commands/dispatch.md created"
 
 # Download worker spawner script
-curl -s "$REPO_URL/scripts/spawn-issue-worker.sh" -o scripts/spawn-issue-worker.sh
-chmod +x scripts/spawn-issue-worker.sh
-echo "  ✓ scripts/spawn-issue-worker.sh created (executable)"
+curl -s "$REPO_URL/.claude/scripts/spawn-issue-worker.sh" -o .claude/scripts/spawn-issue-worker.sh
+chmod +x .claude/scripts/spawn-issue-worker.sh
+echo "  ✓ .claude/scripts/spawn-issue-worker.sh created (executable)"
 
 echo ""
 
@@ -75,8 +75,8 @@ if [ ! -f ".claude/commands/dispatch.md" ]; then
     exit 1
 fi
 
-if [ ! -x "scripts/spawn-issue-worker.sh" ]; then
-    echo "✗ scripts/spawn-issue-worker.sh not executable"
+if [ ! -x ".claude/scripts/spawn-issue-worker.sh" ]; then
+    echo "✗ .claude/scripts/spawn-issue-worker.sh not executable"
     exit 1
 fi
 

@@ -2,28 +2,37 @@
 allowed-tools: Bash
 ---
 
-# Dispatch Issue to New Tmux Window
+# /dispatch - Spawn Worker in New Tmux Window
 
-Execute these bash commands to spawn a worker in a new tmux window:
+**DO NOT USE TASK TOOL. Only use Bash.**
 
-1. Get issue data:
+When you type `/dispatch 28`, run this single bash command:
+
 ```bash
-gh issue view $ARGUMENTS --json number,title,body,url > /tmp/issue.json
-ISSUE_NUMBER=$(jq -r '.number' /tmp/issue.json)
-ISSUE_TITLE=$(jq -r '.title' /tmp/issue.json)
-ISSUE_BODY=$(jq -r '.body' /tmp/issue.json)
-ISSUE_URL=$(jq -r '.url' /tmp/issue.json)
+ISSUE_DATA=$(gh issue view $ARGUMENTS --json number,title,body,url) && \
+ISSUE_NUMBER=$(echo "$ISSUE_DATA" | jq -r '.number') && \
+ISSUE_TITLE=$(echo "$ISSUE_DATA" | jq -r '.title') && \
+ISSUE_BODY=$(echo "$ISSUE_DATA" | jq -r '.body') && \
+ISSUE_URL=$(echo "$ISSUE_DATA" | jq -r '.url') && \
+bash .claude/claude-orchestrator-scripts/spawn-issue-worker.sh "$ISSUE_NUMBER" "$ISSUE_TITLE" "$ISSUE_URL" "$ISSUE_BODY"
 ```
 
-2. Spawn worker in new window:
-```bash
-bash .claude/claude-orchestrator-scripts/spawn-issue-worker.sh \
-  "$ISSUE_NUMBER" "$ISSUE_TITLE" "$ISSUE_URL" "$ISSUE_BODY"
-```
+## What This Does
 
-3. Confirm:
-```bash
-echo "✓ Worker spawned in new window: issue-$ISSUE_NUMBER"
-```
+1. Fetches issue data from GitHub
+2. Parses the JSON into variables
+3. Calls the spawn script with those variables
+4. Creates a NEW tmux window for the worker
+5. Worker runs IN THAT WINDOW (not in this one)
 
-Run each command in order. Do not use Task tool. Only Bash.
+## CRITICAL
+
+- Use ONLY Bash tool
+- Do NOT use Task tool
+- Do NOT spawn background agent
+- Run the complete command as shown above
+- Everything is piped together with && so it all executes as one command
+
+## Result
+
+New tmux window "issue-X" will be created and worker will run there.

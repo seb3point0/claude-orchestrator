@@ -9,7 +9,7 @@ echo "============================"
 echo ""
 
 # Configuration
-REPO_URL="https://raw.githubusercontent.com/Seb3.0/claude-orchestrator/main"
+REPO_URL="https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main"
 BRANCH="main"
 
 # Check prerequisites
@@ -90,4 +90,4 @@ echo "1. Start a tmux session: tmux new-session -s orchestrator"
 echo "2. Launch Claude: claude"
 echo "3. Dispatch an issue: /dispatch 1"
 echo ""
-echo "See README: https://github.com/Seb3.0/claude-orchestrator"
+echo "See README: https://github.com/seb3point0/claude-orchestrator"

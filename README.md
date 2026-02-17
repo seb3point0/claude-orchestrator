@@ -95,14 +95,14 @@ Workers operate independently in their own tmux windows. No need for user interv
 
 ```bash
 cd your-project
-bash <(curl -s https://raw.githubusercontent.com/Seb3.0/claude-orchestrator/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/install.sh)
 ```
 
 ### Option B: Copy Skill File
 
 ```bash
 # Copy the skill
-curl -s https://raw.githubusercontent.com/Seb3.0/claude-orchestrator/main/.claude/skills/orchestrator.md \
+curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/skills/orchestrator.md \
   -o your-project/.claude/skills/orchestrator.md
 
 # In Claude:
@@ -115,10 +115,10 @@ curl -s https://raw.githubusercontent.com/Seb3.0/claude-orchestrator/main/.claud
 mkdir -p your-project/.claude/commands your-project/scripts
 
 # Copy files
-curl -s https://raw.githubusercontent.com/Seb3.0/claude-orchestrator/main/.claude/commands/dispatch.md \
+curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/.claude/commands/dispatch.md \
   -o your-project/.claude/commands/dispatch.md
 
-curl -s https://raw.githubusercontent.com/Seb3.0/claude-orchestrator/main/scripts/spawn-issue-worker.sh \
+curl -s https://raw.githubusercontent.com/seb3point0/claude-orchestrator/main/scripts/spawn-issue-worker.sh \
   -o your-project/scripts/spawn-issue-worker.sh
 
 chmod +x your-project/scripts/spawn-issue-worker.sh
